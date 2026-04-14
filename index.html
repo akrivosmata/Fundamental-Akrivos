@@ -550,7 +550,7 @@
         <div class="card" data-bias="bullish">
             <div class="card-header">
                 <span class="asset-name">USD</span>
-                <span class="badge bullish">Bullish</span>
+                <span class="badge bullish">Slightly Bullish</span>
             </div>
             <div class="reasoning">Safe-haven capital flows accelerate as Fed commits to holding rates higher for longer.</div>
         </div>
@@ -566,7 +566,7 @@
         <div class="card" data-bias="bullish">
             <div class="card-header">
                 <span class="asset-name">Gold</span>
-                <span class="badge bullish">Bullish</span>
+                <span class="badge bullish">Slightly Bullish</span>
             </div>
             <div class="reasoning">Pricing in massive geopolitical premium alongside structural stagflation hedging.</div>
         </div>
@@ -574,7 +574,7 @@
         <div class="card" data-bias="bearish">
             <div class="card-header">
                 <span class="asset-name">Equities (SPX)</span>
-                <span class="badge bearish">Bearish</span>
+                <span class="badge bearish">Slightly Bearish</span>
             </div>
             <div class="reasoning">Multiple compression expected due to sticky inflation and surging energy input costs.</div>
         </div>
@@ -598,17 +598,24 @@
         <div class="card" data-bias="bearish">
             <div class="card-header">
                 <span class="asset-name">EUR/USD</span>
-                <span class="badge bearish">Bearish</span>
+                <span class="badge bearish">Slightly Bearish</span>
             </div>
             <div class="reasoning">Breaking key macro support levels as European energy vulnerability is violently repriced.</div>
         </div>
 
-        <div class="card" data-bias="bearish">
+        <div class="card" data-bias="neutral">
             <div class="card-header">
                 <span class="asset-name">GBP/USD</span>
-                <span class="badge bearish">Bearish</span>
+                <span class="badge neutral">Neutral</span>
             </div>
             <div class="reasoning">Stagflationary pressures overwhelm rate expectations; capital flees to USD safety.</div>
+        </div>
+    </div>
+
+    <h2 class="section-header">Live Fundamentals (Next 24H)</h2>
+    <div id="live-events" class="grid-container">
+        <div style="grid-column: 1 / -1; text-align: center; color: var(--gold); padding: 30px;">
+            <span class="live-dot"></span> Syncing Live Market Data...
         </div>
     </div>
 
@@ -776,6 +783,55 @@
                 firstAcc.classList.add('open');
                 firstAcc.querySelector('.accordion-content').style.maxHeight = firstAcc.querySelector('.accordion-content').scrollHeight + "px";
             }
+
+            // Fetch live fundamentals
+            fetch('https://nfs.faireconomy.media/ff_calendar_thisweek.json')
+                .then(response => response.json())
+                .then(data => {
+                    const now = new Date();
+                    const upcoming = data.filter(event => {
+                        const eventDate = new Date(event.date);
+                        const diffHours = (eventDate - now) / (1000 * 60 * 60);
+                        return diffHours > -2 && diffHours < 48 && (event.impact === "High" || event.impact === "Medium");
+                    }).slice(0, 6);
+
+                    const container = document.getElementById('live-events');
+                    if (!container) return;
+                    container.innerHTML = '';
+                    
+                    if (upcoming.length === 0) {
+                        container.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:#acacac;">No high-impact events scheduled in the next 48 hours.</div>';
+                        return;
+                    }
+
+                    upcoming.forEach(event => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+                        card.dataset.bias = event.impact === 'High' ? 'bearish' : 'neutral';
+                        
+                        const eDate = new Date(event.date);
+                        const timeStr = eDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        const dayStr = eDate.toLocaleDateString([], {weekday: 'short', month: 'short', day: 'numeric'});
+
+                        let impactColor = event.impact === 'High' ? 'var(--bright-red)' : 'var(--gold)';
+
+                        card.innerHTML = `
+                            <div class="card-header">
+                                <span class="asset-name" style="font-size:1.1rem; color:#fff;">${event.country} | ${event.title}</span>
+                                <span class="badge" style="background:transparent; color:${impactColor}; border:1px solid ${impactColor};">${event.impact} Impact</span>
+                            </div>
+                            <div class="reasoning" style="font-size:0.95rem;">
+                                <div style="margin-bottom: 5px;"><strong>Time:</strong> <span class="gold-num" style="margin-left:5px;">${dayStr} ${timeStr}</span></div>
+                                <div><strong>Forecast:</strong> ${event.forecast || 'N/A'} <span style="margin-left:10px; color:#777;">(Prev: ${event.previous || 'N/A'})</span></div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+                })
+                .catch(err => {
+                    const container = document.getElementById('live-events');
+                    if (container) container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--bright-red);">Live feed momentarily unavailable.</div>';
+                });
         });
     </script>
 </body>

@@ -725,17 +725,20 @@
             <div class="directive-col">
                 <h4>Key Events This Week</h4>
                 <ul>
-                    <li>
+                    <li style="flex-wrap: wrap;">
                         <svg class="event-icon" viewBox="0 0 24 24"><path d="M19,4H18V2H16V4H8V2H6V4H5C3.89,4 3,4.9 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V10H19V20M19,8H5V6H19V8M12,13H17V18H12V13Z"/></svg>
-                        US Retail Sales — Tuesday <span class="gold-num" style="margin-left: 5px;">08:30 EST</span>
+                        US Retail Sales — Tuesday <span class="gold-num" style="margin-left: 5px;">18:00 IST</span>
+                        <a href="https://www.bloomberg.com/live" target="_blank" style="margin-left:auto; font-size:0.75rem; color:var(--bright-red); text-decoration:none; border:1px solid var(--bright-red); padding:2px 6px; border-radius:3px; background:rgba(255,59,59,0.1);">▶ WATCH LIVE</a>
                     </li>
-                    <li>
+                    <li style="flex-wrap: wrap;">
                         <svg class="event-icon" viewBox="0 0 24 24"><path d="M19,4H18V2H16V4H8V2H6V4H5C3.89,4 3,4.9 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V10H19V20M19,8H5V6H19V8M12,13H17V18H12V13Z"/></svg>
-                        EIA Crude Oil Inventories — Wednesday <span class="gold-num" style="margin-left: 5px;">10:30 EST</span>
+                        EIA Crude Oil Inventories — Wednesday <span class="gold-num" style="margin-left: 5px;">20:00 IST</span>
+                        <a href="https://www.bloomberg.com/live" target="_blank" style="margin-left:auto; font-size:0.75rem; color:var(--bright-red); text-decoration:none; border:1px solid var(--bright-red); padding:2px 6px; border-radius:3px; background:rgba(255,59,59,0.1);">▶ WATCH LIVE</a>
                     </li>
-                    <li>
+                    <li style="flex-wrap: wrap;">
                         <svg class="event-icon" viewBox="0 0 24 24"><path d="M19,4H18V2H16V4H8V2H6V4H5C3.89,4 3,4.9 3,6V20A2,2 0 0,0 5,22H19A2,2 0 0,0 21,20V6A2,2 0 0,0 19,4M19,20H5V10H19V20M19,8H5V6H19V8M12,13H17V18H12V13Z"/></svg>
-                        Fed Chair Powell Speech — Wednesday <span class="gold-num" style="margin-left: 5px;">14:00 EST</span>
+                        Fed Chair Powell Speech — Wednesday <span class="gold-num" style="margin-left: 5px;">23:30 IST</span>
+                        <a href="https://www.bloomberg.com/live" target="_blank" style="margin-left:auto; font-size:0.75rem; color:var(--bright-red); text-decoration:none; border:1px solid var(--bright-red); padding:2px 6px; border-radius:3px; background:rgba(255,59,59,0.1);">▶ WATCH LIVE</a>
                     </li>
                 </ul>
             </div>
@@ -821,8 +824,11 @@
                                 <span class="badge" style="background:transparent; color:${impactColor}; border:1px solid ${impactColor};">${event.impact} Impact</span>
                             </div>
                             <div class="reasoning" style="font-size:0.95rem;">
-                                <div style="margin-bottom: 5px;"><strong>Time:</strong> <span class="gold-num" style="margin-left:5px;">${dayStr} ${timeStr}</span></div>
-                                <div><strong>Forecast:</strong> ${event.forecast || 'N/A'} <span style="margin-left:10px; color:#777;">(Prev: ${event.previous || 'N/A'})</span></div>
+                                <div style="margin-bottom: 5px;"><strong>Time:</strong> <span class="gold-num" style="margin-left:5px;">${dayStr} ${timeStr} IST</span></div>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><strong>Forecast:</strong> ${event.forecast || 'N/A'} <span style="margin-left:10px; color:#777;">(Prev: ${event.previous || 'N/A'})</span></span>
+                                    <a href="https://www.bloomberg.com/live" target="_blank" style="font-size:0.75rem; color:var(--bright-red); text-decoration:none; border:1px solid var(--bright-red); padding:3px 8px; border-radius:4px; background:rgba(255,59,59,0.1);">▶ WATCH LIVE</a>
+                                </div>
                             </div>
                         `;
                         container.appendChild(card);

@@ -531,16 +531,8 @@
 
     <div class="banner-container">
         <div class="ticker-wrap">
-            <div class="ticker">
-                BRENT CRUDE <span class="gold-num">$102</span> <span class="green-arrow">▲</span><span class="gold-num">7%</span> <span class="divider">|</span>
-                WTI <span class="gold-num">$104</span> <span class="green-arrow">▲</span><span class="gold-num">7.8%</span> <span class="divider">|</span>
-                DXY <span class="gold-num">100.2</span> <span class="green-arrow">▲</span> <span class="divider">|</span>
-                US CPI <span class="gold-num">3.3%</span> YoY <span class="divider">|</span>
-                STRAIT OF HORMUZ BLOCKADE ACTIVE <span class="divider">|</span>
-                S&P 500 <span class="green-arrow">▲</span><span class="gold-num">1%</span> <span class="divider">|</span>
-                GOLD <span class="green-arrow">▲</span> <span class="divider">|</span>
-                CEASEFIRE TALKS FAILED <span class="divider">|</span>
-                FED HOLDS <span class="gold-num">3.50-3.75%</span>
+            <div class="ticker" id="live-ticker" style="color:var(--gold);">
+                SYNCING LIVE MARKET TICKER...
             </div>
         </div>
     </div>
@@ -619,89 +611,11 @@
         </div>
     </div>
 
-    <h2 class="section-header">Intelligence Breakdown</h2>
-    <div class="accordion-container">
-        
-        <div class="accordion" id="acc1">
-            <div class="accordion-header">
-                <div class="accordion-title">Iran War & Strait of Hormuz Crisis</div>
-                <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>Strait of Hormuz officially blockaded, directly restricting <span class="gold-num">20%</span> of total global oil flow.</li>
-                        <li>Ceasefire negotiations have fully collapsed, raising critical risks of prolonged regional contagion.</li>
-                        <li>Insurance premiums on maritime shipping have spiked <span class="gold-num">400%</span> overnight.</li>
-                    </ul>
-                </div>
-            </div>
+    <h2 class="section-header">Live Market Intelligence News</h2>
+    <div class="accordion-container" id="live-news-container">
+        <div style="text-align:center; padding: 30px; color: var(--gold);">
+            <span class="live-dot" style="animation: pulse 1s infinite alternate;"></span> Fetching Live Global Wires...
         </div>
-
-        <div class="accordion">
-            <div class="accordion-header">
-                <div class="accordion-title">US Inflation — March CPI</div>
-                <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>March CPI prints at <span class="gold-num">3.3%</span> YoY, significantly exceeding consensus estimates of <span class="gold-num">3.1%</span>.</li>
-                        <li>Supercore inflation remains dangerously sticky at <span class="gold-num">4.2%</span>, driven primarily by structural services costs.</li>
-                        <li>Energy index component expected to surge further in the April print due to Middle East escalation.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion">
-            <div class="accordion-header">
-                <div class="accordion-title">Federal Reserve — On Hold</div>
-                <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>FOMC maintained the target rate at <span class="gold-num">3.50-3.75%</span>, firmly pivoting away from prior rate cut expectations.</li>
-                        <li>Forward guidance strongly suggests "higher for longer" policy until supply-side shocks and geopolitical tensions subside.</li>
-                        <li>Quantitative Tightening (QT) continues at the current pace, draining liquidity from risk assets.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion">
-            <div class="accordion-header">
-                <div class="accordion-title">US Dollar (DXY)</div>
-                <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>DXY surged past <span class="gold-num">100.2</span> as global capital violently flees to safe-haven assets.</li>
-                        <li>Continued absolute yield advantage supporting the greenback against all major G10 and Emerging Market currencies.</li>
-                        <li>Euro and Sterling breaking key macro support levels as European energy vulnerability is repriced.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion">
-            <div class="accordion-header">
-                <div class="accordion-title">Global Growth Outlook</div>
-                <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-inner">
-                    <ul>
-                        <li>IMF rapidly downgrades global growth forecasts by <span class="gold-num">0.5%</span> due to overlapping energy and systemic inflation shocks.</li>
-                        <li>Stagflationary pressures aggressively rising across Europe and highly-leveraged emerging markets.</li>
-                        <li>Manufacturing PMIs across the Eurozone officially slide deeper into contraction territory.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <h2 class="section-header">Synthesis</h2>
@@ -857,6 +771,68 @@
                     const container = document.getElementById('live-events');
                     if (container) container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--bright-red);">Live feed momentarily unavailable.</div>';
                 });
+
+            // Fetch Live News for Ticker and Accordions
+            fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.investing.com/rss/news_25.rss')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || !data.items || data.items.length === 0) return;
+                    
+                    // 1. Populate Ticker
+                    const ticker = document.getElementById('live-ticker');
+                    if (ticker) {
+                        const tickerText = data.items.slice(0, 10).map(item => `<span style="color:#ececec;">LIVE NEWS:</span> <span style="color:var(--gold);">${item.title}</span>`).join(' <span class="divider">|</span> ');
+                        ticker.innerHTML = tickerText + ' <span class="divider">|</span> ' + tickerText; // Duplicate for smooth loop
+                    }
+
+                    // 2. Populate Accordions
+                    const container = document.getElementById('live-news-container');
+                    if (container) {
+                        container.innerHTML = ''; // Clear static
+                        data.items.slice(0, 5).forEach((item, index) => {
+                            const acc = document.createElement('div');
+                            acc.className = 'accordion';
+                            if (index === 0) acc.classList.add('open');
+                            
+                            // Shorten title if too long
+                            const titleShort = item.title.length > 70 ? item.title.substring(0, 70) + '...' : item.title;
+
+                            acc.innerHTML = `
+                                <div class="accordion-header">
+                                    <div class="accordion-title">${titleShort}</div>
+                                    <svg class="chevron" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></svg>
+                                </div>
+                                <div class="accordion-content" style="${index === 0 ? 'max-height: 500px;' : ''}">
+                                    <div class="accordion-inner">
+                                        <p style="color:#d0d0d0; margin-bottom:10px; font-size:0.9rem;"><strong>Published:</strong> <span class="gold-num">${item.pubDate}</span> | <strong>Source:</strong> <span style="color:var(--gold);">${item.author || 'Investing.com Wire'}</span></p>
+                                        <p style="color:#bbb; line-height:1.6; margin-bottom: 15px;">${item.title}. For complete macro coverage and market reaction, see full terminal report.</p>
+                                        <a href="${item.link}" target="_blank" style="display:inline-block; font-size:0.85rem; color:var(--bright-red); text-decoration:none; border:1px solid var(--bright-red); padding:4px 10px; border-radius:4px; background:rgba(255,59,59,0.1);">READ FULL STORY <span style="margin-left:5px;">▶</span></a>
+                                    </div>
+                                </div>
+                            `;
+                            container.appendChild(acc);
+                        });
+
+                        // Reattach accordion logic to new elements
+                        const newAccordions = document.querySelectorAll('#live-news-container .accordion');
+                        newAccordions.forEach(accordion => {
+                            const header = accordion.querySelector('.accordion-header');
+                            header.addEventListener('click', () => {
+                                const content = accordion.querySelector('.accordion-content');
+                                const isOpen = accordion.classList.contains('open');
+                                newAccordions.forEach(acc => {
+                                    acc.classList.remove('open');
+                                    acc.querySelector('.accordion-content').style.maxHeight = null;
+                                });
+                                if (!isOpen) {
+                                    accordion.classList.add('open');
+                                    content.style.maxHeight = content.scrollHeight + "px";
+                                }
+                            });
+                        });
+                    }
+                })
+                .catch(err => console.log('Live news unavailable', err));
         });
     </script>
 </body>

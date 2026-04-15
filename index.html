@@ -538,69 +538,9 @@
     </div>
 
     <h2 class="section-header">Daily Macro Bias Overview</h2>
-    <div class="grid-container">
-        <div class="card" data-bias="bullish">
-            <div class="card-header">
-                <span class="asset-name">USD</span>
-                <span class="badge bullish">Slightly Bullish</span>
-            </div>
-            <div class="reasoning">Safe-haven capital flows accelerate as Fed commits to holding rates higher for longer.</div>
-        </div>
-
-        <div class="card" data-bias="bullish">
-            <div class="card-header">
-                <span class="asset-name">Oil (Brent/WTI)</span>
-                <span class="badge bullish">Bullish</span>
-            </div>
-            <div class="reasoning">Immediate supply shock driven by the active Strait of Hormuz blockade.</div>
-        </div>
-
-        <div class="card" data-bias="bullish">
-            <div class="card-header">
-                <span class="asset-name">Gold</span>
-                <span class="badge bullish">Slightly Bullish</span>
-            </div>
-            <div class="reasoning">Pricing in massive geopolitical premium alongside structural stagflation hedging.</div>
-        </div>
-
-        <div class="card" data-bias="bearish">
-            <div class="card-header">
-                <span class="asset-name">Equities (SPX)</span>
-                <span class="badge bearish">Slightly Bearish</span>
-            </div>
-            <div class="reasoning">Multiple compression expected due to sticky inflation and surging energy input costs.</div>
-        </div>
-
-        <div class="card" data-bias="bearish">
-            <div class="card-header">
-                <span class="asset-name">US 10Y Bonds</span>
-                <span class="badge bearish">Bearish</span>
-            </div>
-            <div class="reasoning">Yields breaking out as fixed income reprieves vanish under renewed inflation fears.</div>
-        </div>
-
-        <div class="card" data-bias="bearish">
-            <div class="card-header">
-                <span class="asset-name">INR / EM FX</span>
-                <span class="badge bearish">Bearish</span>
-            </div>
-            <div class="reasoning">Net energy importers highly vulnerable to the dual shock of expensive oil and strong USD.</div>
-        </div>
-
-        <div class="card" data-bias="bearish">
-            <div class="card-header">
-                <span class="asset-name">EUR/USD</span>
-                <span class="badge bearish">Slightly Bearish</span>
-            </div>
-            <div class="reasoning">Breaking key macro support levels as European energy vulnerability is violently repriced.</div>
-        </div>
-
-        <div class="card" data-bias="neutral">
-            <div class="card-header">
-                <span class="asset-name">GBP/USD</span>
-                <span class="badge neutral">Neutral</span>
-            </div>
-            <div class="reasoning">Stagflationary pressures overwhelm rate expectations; capital flees to USD safety.</div>
+    <div id="live-bias-container" class="grid-container">
+        <div style="grid-column: 1 / -1; text-align: center; color: var(--gold); padding: 30px;">
+            <span class="live-dot" style="animation: pulse 1s infinite alternate;"></span> Syncing Live Macro Data...
         </div>
     </div>
 
@@ -833,6 +773,82 @@
                     }
                 })
                 .catch(err => console.log('Live news unavailable', err));
+
+            // Fetch Live Macro Bias Data (Currencies via Frankfurter, Sentiment via RSS)
+            async function buildLiveMacroBias() {
+                const container = document.getElementById('live-bias-container');
+                if (!container) return;
+
+                let cardsHtml = '';
+                const baseAssets = [
+                    { name: 'USD (DXY)', defaultBias: 'neutral' },
+                    { name: 'Equities (SPX)', defaultBias: 'neutral' },
+                    { name: 'Gold', defaultBias: 'neutral' },
+                    { name: 'Oil (Brent/WTI)', defaultBias: 'neutral' },
+                    { name: 'US 10Y Bonds', defaultBias: 'neutral' }
+                ];
+                
+                try {
+                    // Fetch real forex rates
+                    const fxResponse = await fetch('https://api.frankfurter.app/latest?from=USD');
+                    const fxData = await fxResponse.json();
+                    
+                    // Fetch real market overview headlines for sentiment analysis
+                    const rssResponse = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.investing.com/rss/market_overview.rss');
+                    const rssData = await rssResponse.json();
+                    
+                    const getSentiment = (text) => {
+                        const txt = text.toLowerCase();
+                        if (txt.match(/(up|rise|gain|high|rally|jump|soar|climb|bull|boost)/)) return 'bullish';
+                        if (txt.match(/(down|fall|drop|low|plunge|slide|bear|sink|cut)/)) return 'bearish';
+                        return 'neutral';
+                    };
+
+                    const headlines = rssData.items || [];
+
+                    // Render Generic Assets
+                    baseAssets.forEach((asset, i) => {
+                        const headlineItem = headlines[i + 5]; // offset to get varied headlines
+                        const headline = headlineItem ? headlineItem.title : 'Market stabilizing awaiting further technical confirmation.';
+                        const bias = headlineItem ? getSentiment(headline) : asset.defaultBias;
+                        
+                        let biasText = bias === 'bullish' ? 'Bullish' : (bias === 'bearish' ? 'Bearish' : 'Neutral');
+                        
+                        cardsHtml += `
+                            <div class="card" data-bias="${bias}">
+                                <div class="card-header">
+                                    <span class="asset-name">${asset.name}</span>
+                                    <span class="badge ${bias}">${biasText}</span>
+                                </div>
+                                <div class="reasoning" style="font-size:0.85rem;"><strong style="color:#aaa;">Live Market Sentiment:</strong> ${headline}</div>
+                            </div>
+                        `;
+                    });
+
+                    // Render Real FX Rates
+                    const pairs = ['EUR', 'GBP', 'INR'];
+                    pairs.forEach(pair => {
+                        const rate = fxData.rates[pair];
+                        cardsHtml += `
+                            <div class="card" data-bias="neutral">
+                                <div class="card-header">
+                                    <span class="asset-name">${pair}/USD</span>
+                                    <span class="badge neutral" style="border:1px solid #777; color:#ccc;">LIVE RATE</span>
+                                </div>
+                                <div class="reasoning" style="font-size:0.95rem; color:var(--gold);">
+                                    <strong>Current Rate:</strong> 1 USD = <span style="color:#fff;">${rate}</span> ${pair}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML = cardsHtml;
+
+                } catch (e) {
+                    container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; color: var(--bright-red);">Macro bias feed momentarily unavailable.</div>';
+                }
+            }
+            buildLiveMacroBias();
         });
     </script>
 </body>

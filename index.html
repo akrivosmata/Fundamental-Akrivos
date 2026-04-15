@@ -522,7 +522,7 @@
             <div class="subtitle">Macro Intelligence Report</div>
         </div>
         <div class="header-right">
-            <div class="date">APRIL 14, 2026</div>
+            <div class="date" id="live-header-date">APRIL 14, 2026</div>
             <div class="live-badge">
                 <span class="live-dot"></span> LIVE
             </div>
@@ -750,7 +750,7 @@
     </div>
 
     <footer>
-        <div class="footer-data">Data sourced: Bloomberg, Reuters, CNBC, FedReserve.gov, IEA, Kpler &mdash; April 14, 2026</div>
+        <div class="footer-data">Data sourced: Bloomberg, Reuters, CNBC, FedReserve.gov, IEA, Kpler &mdash; <span id="live-footer-date">April 14, 2026</span></div>
         <div class="footer-disclaimer">For educational and analytical purposes only. Not financial advice.</div>
     </footer>
 
@@ -786,6 +786,25 @@
                 firstAcc.classList.add('open');
                 firstAcc.querySelector('.accordion-content').style.maxHeight = firstAcc.querySelector('.accordion-content').scrollHeight + "px";
             }
+
+            // --- Real-time Date & Time Clock ---
+            function updateLiveClock() {
+                const now = new Date();
+                
+                const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+                const timeOptions = { hour: '2-digit', minute: '2-digit' };
+                const dateString = now.toLocaleDateString('en-US', dateOptions).toUpperCase();
+                const timeString = now.toLocaleTimeString('en-US', timeOptions);
+                
+                const headerDateEl = document.getElementById('live-header-date');
+                if (headerDateEl) headerDateEl.textContent = dateString + " | " + timeString;
+
+                const footerDateEl = document.getElementById('live-footer-date');
+                if (footerDateEl) footerDateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
+            }
+            updateLiveClock(); // initial print
+            setInterval(updateLiveClock, 10000); // refresh time
+
 
             // Fetch live fundamentals
             fetch('https://nfs.faireconomy.media/ff_calendar_thisweek.json')

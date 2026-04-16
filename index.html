@@ -141,7 +141,7 @@
             white-space: nowrap;
             padding-right: 100%;
             box-sizing: content-box;
-            animation: ticker 40s linear infinite;
+            animation: ticker 120s linear infinite;
             font-weight: 600;
             color: #ececec;
             font-size: 1rem;
@@ -661,7 +661,7 @@
 
 
             // Fetch live fundamentals
-            fetch('https://nfs.faireconomy.media/ff_calendar_thisweek.json')
+            fetch('https://api.allorigins.win/raw?url=https://nfs.faireconomy.media/ff_calendar_thisweek.json')
                 .then(response => response.json())
                 .then(data => {
                     const now = new Date();
@@ -789,13 +789,20 @@
                 ];
                 
                 try {
-                    // Fetch real forex rates
-                    const fxResponse = await fetch('https://api.frankfurter.app/latest?from=USD');
-                    const fxData = await fxResponse.json();
+                    // Isolate fetches so one failure doesn't crash everything
+                    let fxData = { rates: { EUR: 'N/A', GBP: 'N/A', INR: 'N/A' } };
+                    let headlines = [];
                     
-                    // Fetch real market overview headlines for sentiment analysis
-                    const rssResponse = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.investing.com/rss/market_overview.rss');
-                    const rssData = await rssResponse.json();
+                    try {
+                        const fxResponse = await fetch('https://api.frankfurter.app/latest?from=USD');
+                        fxData = await fxResponse.json();
+                    } catch(e) { console.warn("Frankfurter fetch failed", e); }
+                    
+                    try {
+                        const rssResponse = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.investing.com/rss/market_overview.rss');
+                        const rssData = await rssResponse.json();
+                        headlines = rssData.items || [];
+                    } catch(e) { console.warn("RSS proxy fetch failed", e); }
                     
                     const getSentiment = (text) => {
                         const txt = text.toLowerCase();
@@ -803,8 +810,6 @@
                         if (txt.match(/(down|fall|drop|low|plunge|slide|bear|sink|cut)/)) return 'bearish';
                         return 'neutral';
                     };
-
-                    const headlines = rssData.items || [];
 
                     // Render Generic Assets
                     baseAssets.forEach((asset, i) => {

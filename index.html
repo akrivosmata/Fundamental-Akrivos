@@ -645,13 +645,13 @@
             function updateLiveClock() {
                 const now = new Date();
                 
-                const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
-                const timeOptions = { hour: '2-digit', minute: '2-digit' };
+                const dateOptions = { timeZone: 'Asia/Kolkata', month: 'long', day: 'numeric', year: 'numeric' };
+                const timeOptions = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' };
                 const dateString = now.toLocaleDateString('en-US', dateOptions).toUpperCase();
                 const timeString = now.toLocaleTimeString('en-US', timeOptions);
                 
                 const headerDateEl = document.getElementById('live-header-date');
-                if (headerDateEl) headerDateEl.textContent = dateString + " | " + timeString;
+                if (headerDateEl) headerDateEl.textContent = dateString + " | " + timeString + " IST";
 
                 const footerDateEl = document.getElementById('live-footer-date');
                 if (footerDateEl) footerDateEl.textContent = now.toLocaleDateString('en-US', dateOptions);
@@ -686,8 +686,8 @@
                         card.dataset.bias = event.impact === 'High' ? 'bearish' : 'neutral';
                         
                         const eDate = new Date(event.date);
-                        const timeStr = eDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        const dayStr = eDate.toLocaleDateString([], {weekday: 'short', month: 'short', day: 'numeric'});
+                        const timeStr = eDate.toLocaleTimeString('en-US', {timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit'});
+                        const dayStr = eDate.toLocaleDateString('en-US', {timeZone: 'Asia/Kolkata', weekday: 'short', month: 'short', day: 'numeric'});
 
                         let impactColor = event.impact === 'High' ? 'var(--bright-red)' : 'var(--gold)';
 
